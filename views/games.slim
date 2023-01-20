@@ -1,0 +1,47 @@
+section#gamespage-title.flex-vertcenter
+    h2
+        | Games
+    p
+        | Enjoy a 
+        em
+            | complete collection
+        |  of all the games that we've created during the past 
+        em
+            | three years
+        | . Both old and new, all the games have been developed using the game engine 
+        em
+            | Unity
+        | .
+
+
+
+section.gamespage-gameswrapper
+
+    - games.reverse.each do |game|
+        - if game['showInList'] == 1
+            article.gameitem
+                img[src="#{game['imagePath']}" alt="game thumbnail"]
+                h3 = game['name']
+                p = game['description']
+                .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
+                    p
+                        | PLAY
+                .flex-center.button.button-thin.button-orange[onclick="location.href='/licensing';"]
+                    p
+                        | LICENSE
+        - else 
+            article.gameitem.hidden
+                img[src="#{game['imagePath']}" alt="game thumbnail"]
+                h3 = game['name']
+                p = game['description']
+                .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
+                    p
+                        | PLAY
+                .flex-center.button.button-thin.button-orange[onclick="location.href='/licensing';"]
+                    p
+                        | EDIT
+        
+
+    article.gameitem.addgameitem
+        //Add New Icon by Unicons Font on IconScout
+        img.svg-darkgray[src="img/svg/add-new.svg" alt="Branding icon"]

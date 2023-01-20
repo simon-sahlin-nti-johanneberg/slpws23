@@ -1,0 +1,62 @@
+//For some reason, the SominStudios Logo seems to shift slightly when going between slim and html. No idea why though...
+
+html[lang="en"]
+    head
+        meta[charset="UTF-8"]
+        meta[http-equiv="X-UA-Compatible" content="IE=edge"]
+        meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+        link rel="stylesheet" href="/css/style.css"
+        title
+            | SominStudios
+        link[rel="icon" href="img/icon.png" type="image/icon"]
+    body
+        nav.topnav
+            .topnav-logo
+                h1
+                    a[href=""]
+                        img[src="/img/logo.png" alt="SominStudios Logo"]
+            section.topnav-links.flex-center
+                hr.topnav-hr
+                a.topnav-text[href="/games"]
+                    | Games
+                hr.topnav-hr
+                a.topnav-text[href="/licensing"]
+                    | Licensing
+                hr.topnav-hr
+                a.topnav-text[href="/licensing#contact-header"]
+                    | Contact
+                hr.topnav-hr
+                a.topnav-text[href="/about"]
+                    | About
+                hr.topnav-hr
+            .burger
+                #line1
+                #line2
+                #line3
+
+        ==yield 
+
+        footer.flex-vertcenter
+            p
+                | Copyright © 2022 SominStudios
+            p
+                | Created by Simon Sahlin
+            hr#footer-hr1
+            #footer-nav
+                a[href="/games"]
+                    | Games
+                a[href="/licensing"]
+                    | Licensing
+                a[href="/licensing#contact-header"]
+                    | Contact
+                a[href="/about"]
+                    | About
+            hr#footer-hr2
+            #footer-icons.flex-center
+                img.svg-white[src="/img/svg/twitter.svg" alt="twitter logo"]
+                img.svg-white[src="/img/svg/tiktok.svg" alt="tiktok logo"]
+                img.svg-white[src="/img/svg/instagram.svg" alt="instagram logo"]
+            hr#footer-hr3
+            p
+                | SOMINSTUDIOS
+        script[src="js/script.js"]

@@ -1,0 +1,11 @@
+section#gamespage-title.flex-vertcenter
+    h2
+        | Add game
+
+form action="/games/addgame" method="post" 
+    input type="text" name="title" placeholder="Game title"
+    input type="text" name="description" placeholder="Game description"
+    input type="text" name="imagePath" placeholder="Thumbnail image path"
+    p Published
+    input type="checkbox" name="display" placeholder="Showgame"
+    input type="submit" value="Create game"

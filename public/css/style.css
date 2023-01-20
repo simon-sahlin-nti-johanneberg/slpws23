@@ -1,0 +1,1128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}   
+
+:root {
+    --red: #ff3860;
+    --red-dark: #ff1443;
+    --red-light: #ff5c7c;
+    --blue: #498afb;
+    --blue-dark: #2674fa;
+    --blue-light: #6ca0fc;
+    --orange: #fa8142;
+    --orange-dark: #f96a1f;
+    --orange-light: #fb9865;
+    --green: #09c372;
+    --green-dark: #07a15e;
+    --green-light: #0be586;
+    --purple: #9166cc;
+    --purple-dark: #7d4bc3;
+    --purple-light: #a481d5;
+    --pink: #ff4088;
+    --pink-dark: #ff1c72;
+    --pink-light: #ff649e;
+    --gray0: #f8f8f8;
+    --gray1: #dbe1e8;
+    --gray2: #b2becd;
+    --gray3: #6c7983;
+    --gray4: #454e56;
+    --gray5: #2a2e35;
+    --gray5t: #0000005b;
+    --gray6: #12181b;
+    --gray7: #0b0d0e;
+
+    --font-body: "sofia-pro",sans-serif;
+    --font-head: 'Poppins', sans-serif;
+    --font-code: "attribute-mono",monospace;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: var(--gray6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flex-vertcenter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1,h2,h3,p{
+    color: var(--gray0);
+    font-family: var(--font-head);
+}
+
+h1{
+    font-size: 3rem;
+    font-weight: 200;
+}
+h2{
+    font-size: 3rem;
+    font-weight: 200;
+}
+h3{
+    font-size: 2rem;
+    font-weight: 300;
+}
+p{
+    font-size: 1rem;
+    font-weight: 300;
+}
+em{
+    color: var(--orange-dark);
+    font-weight: 500;
+    font-style: normal;
+}
+
+.button{
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    background-color: var(--green);
+    border-radius: 5px;
+    transition: transform .3s, box-shadow .3s;
+}
+
+.button > p{
+    font-weight: 900;
+    text-shadow: 1.5px 1.5px 0px var(--gray7);
+}
+
+.button:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.38);
+    cursor: pointer;
+}
+
+.button-orange{
+    background-color: var(--orange);
+}
+.button-thin{
+    height: 35px;
+}
+
+.svg-white{
+    /*Koden nedan är till för att ändra färgen på SVGer, genererad med detta verktyget: https://codepen.io/sosuke/pen/Pjoqqp*/
+    filter: invert(91%) sepia(11%) saturate(138%) hue-rotate(172deg) brightness(102%) contrast(86%);
+}
+.svg-gray{
+    filter: invert(93%) sepia(3%) saturate(4330%) hue-rotate(181deg) brightness(89%) contrast(78%);
+}
+
+.svg-darkgray{
+    filter: invert(15%) sepia(20%) saturate(423%) hue-rotate(179deg) brightness(90%) contrast(89%);
+}
+
+.boxborder-header{
+    background-color: var(--gray7);
+    text-align: center;
+    border-radius: 15px;
+    width: 90%;
+    padding: 5px;
+}
+
+hr{
+    width: 100%;
+    border: none;
+    border-top: 5px dashed var(--gray7);
+}
+.spacer{
+    margin: 100px 0px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 Nav-Styling                                */
+/* -------------------------------------------------------------------------- */
+
+.topnav{
+    position: fixed;
+    width: 100%;
+    height: 64px;
+    background-color: var(--gray5t);
+
+    display: flex;
+    z-index: 999;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.topnav-logo{
+    width: 15vw;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.topnav-logo h1 a{
+    text-decoration: none;
+    color: var(--gray0);
+}
+
+.topnav-logo h1 a img{
+    height: 40px;
+}
+
+.topnav-links{
+    flex-grow: 1;
+    margin-right: 15vw;
+    pointer-events: none;
+    transition: transform 0.3s;
+}
+
+.topnav-text{
+    pointer-events: auto;
+    text-decoration: none;
+    margin: 4%;
+
+    color: var(--gray0);
+    font-size: 1.2rem;
+    font-family: var(--font-head);
+    font-weight: 200;
+}
+
+.topnav-opaque{
+    background-color: var(--gray5);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.38);
+}
+
+.topnav-hidden{
+    transform: translateY(-64px);
+}
+.topnav-hr{
+    display: none;
+    border: none;
+    border-top: 5px dashed var(--gray4);
+}
+
+/* ------------------------------- Burger-Menu ------------------------------ */
+
+.burger {
+    position: absolute;
+    top: -70px;
+    right: 5px;
+    cursor: pointer;
+    width: 64px;
+    height: 64px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.burger > div {
+    width: 100%;
+    height: 11%;
+    background-color: var(--gray0);
+    border-radius: 9999px;
+    transition: transform 0.3s;
+}
+.burger-active #line2 {
+    opacity: 0;
+}
+.burger-active #line1 {
+    transform: rotate(135deg) translate(10px, -10px);
+}
+.burger-active #line3 {
+    transform: rotate(45deg) translate(-10px, -10px);
+}
+.topnav-active {
+    transform: translateX(-70vw);
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                   Footer                                   */
+/* -------------------------------------------------------------------------- */
+
+footer{
+    background-color: var(--gray7);
+    width: 100%;
+    height: 40vh;
+    gap: 10px;
+}
+
+footer > hr{
+    border: none;
+    border-top: 3px dashed var(--gray5);
+    
+}
+
+#footer-hr1{
+    width: 20em;
+}
+#footer-hr2{
+    width: 15em;
+}
+#footer-hr3{
+    width: 10em;
+}
+
+#footer-nav > a{
+    text-decoration: none;
+    margin: .5em;
+
+    color: var(--gray0);
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: var(--font-head);
+    font-weight: 200;
+}
+
+#footer-icons{
+    width: 10em;
+    justify-content: space-between;
+}
+
+#footer-icons img{
+    height: 25px;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 Title-page                                 */
+/* -------------------------------------------------------------------------- */
+
+#titlepage{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+#titlepage video{
+    height: 120%;
+    z-index: 1;
+    background-image: url(../img/gaming.jpg);
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center; 
+}
+
+#graybox{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.308);
+    z-index: 2;
+}
+
+.titlebox{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titletext{
+    text-align: center;
+    text-shadow: 0px 0px 5px var(--gray7);
+    z-index: 3;
+    font-weight: 400;
+    width: 90%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    Games                                   */
+/* -------------------------------------------------------------------------- */
+
+.games-wrapper{
+    display: grid;
+    grid-template-areas: 
+    "tx tx"
+    "g1 g2"
+    ;
+    width: 1280px;
+    margin: 25px;
+    place-items: center; 
+}
+
+
+.games-text{
+    grid-area: tx;
+    width: auto;
+    height: auto;
+    text-align: center;
+}
+.games-text > h2{
+    color: var(--orange);
+    font-weight: 500;
+}
+
+.games-text > p{
+    font-weight: 200;
+    font-size: 1.5rem;
+}
+
+.games-left{
+    grid-area: g1;
+}
+
+.games-right{
+    grid-area: g2;
+}
+
+.gamecard{
+    width: 600px;
+    height: auto;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.38);
+    background-color: var(--gray5);
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: transform .3s;
+}
+
+.gamecard > img{
+    width: 100%;
+    aspect-ratio: 63/50; /*Ja konstigt format, endast där för att jag lätt ska kunna importera bilder från itch.io, och där använder dom 630px*500px av någon anledning*/
+    border-radius: 5px; 
+}
+
+.gamecard > h3{
+    color: var(--red-light);
+    font-size: 2.5em;
+    font-weight: 500;
+    text-align: center;
+}
+
+.gamecard > p{
+    font-weight: 500;
+    text-align: center;
+}
+
+.gamecard:hover{
+    transform: translateY(-5px);
+}
+
+.games-allbutton{
+    width: 50vw;
+    height: 60px;
+}
+
+.games-allbutton > p{
+    font-size: 1.4rem;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  Licensing                                 */
+/* -------------------------------------------------------------------------- */
+
+.licensing-wrapper{
+    display: grid;
+    grid-template-areas: 
+    "ar se"
+    ;
+    grid-template-columns: 1fr 1fr;
+    width: 80vw;
+    height: auto;
+    margin: 0px 75px;
+}
+
+.licensing-wrapper > div{
+    grid-area: ar;
+}
+.licensing-wrapper > section{
+    grid-area: se;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.licensing-wrapper > section > h2{
+    font-size: 4rem;
+}
+.licensing-wrapper > section > p{
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.licensing-wrapper > article > img{
+    width: 80%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  Partners                                  */
+/* -------------------------------------------------------------------------- */
+
+
+.partners-wrapper{
+    display: grid;
+    grid-template-areas: 
+    "h1 h1 h1 h1"
+    "l1 l2 l2 l3"
+    "l4 l4 l5 l5"
+    ;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    width: 70vw;
+    overflow: hidden;
+}
+
+.partners-logo{
+    width: 100%;
+    height: auto;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.partners-wrapper > h2{
+    text-align: center;
+    font-size: 5rem;
+    grid-area: h1;
+}
+#partners-logo1{
+    grid-area: l1;
+}
+#partners-logo2{
+    grid-area: l2;
+}
+#partners-logo3{
+    grid-area: l3;
+}
+#partners-logo4{
+    grid-area: l4;
+}
+#partners-logo5{
+    grid-area: l5;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                               ALL GAMES PAGE                               */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+
+#gamespage-title{
+    margin-top: 64px;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+#gamespage-title h2{
+    font-size: 5em;
+}
+#gamespage-title p{
+    text-align: center;
+    width: 65%;
+    font-size: 1.5em;
+}
+
+.gamespage-gameswrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 95%;
+    height: auto;
+    margin-bottom: 100px;
+}
+
+.gameitem{
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 300px;
+    max-width: 400px;
+    min-width: 100px;
+    height: auto;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.38);
+    background-color: var(--gray5);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform .3s;
+}
+
+.gameitem > img{
+    width: 100%;
+    aspect-ratio: 63/50; /*Ja, konstigt format, endast där för att jag lätt ska kunna importera bilder från itch.io, och där använder dom 630px*500px av någon anledning*/
+    border-radius: 2.5px; 
+    margin-bottom: 5px;
+}
+
+.gameitem > h3{
+    font-size: 1.1em;
+    color: var(--red);
+    font-weight: 500;
+    text-align: center;
+}
+
+.gameitem > p{
+    font-size: 0.875em;
+    font-weight: 400;
+    text-align: center;
+}
+
+.gameitem:hover{
+    transform: translateY(-5px);
+}
+
+.hidden{
+    opacity: 50%;
+}
+
+.addgameitem{
+    background-color: var(--gray6);
+    border: 7px dashed var(--gray5);
+    border-radius: 35px;
+    box-shadow: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addgameitem > img{
+    width: 50%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                LICENSES PAGE                               */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+
+#licensepage-title{
+    margin-top: 88px;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+#licensepage-title h2{
+    font-size: 3em;
+    font-weight: 300;
+}
+#licensepage-title p{
+    margin-top: 20px;
+    margin-bottom: 40px;
+
+    text-align: center;
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: 300;
+}
+#licensepage-title section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 30px 0px;
+}
+#licensepage-title section img{
+    border-radius: 100%;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 25%;
+    max-width: 25%;
+    min-width: 315px;
+}
+
+#licensepage-customswrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    height: auto;
+    margin-bottom: 75px;
+}
+.licensepage-customscard{
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 300px;
+    max-width: 600px;
+    min-width: 100px;
+    height: auto;
+
+    padding: 5px;
+    text-align: center;
+}
+.licensepage-customscard h3{
+    font-weight: 500;
+}
+.licensepage-customscard img{
+    width: 30%;
+    margin: 20px;
+}
+
+#licensepage-pricingwrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    height: auto;
+    margin-bottom: 75px;
+    gap: 30px;
+}
+.licensepage-pricingcard{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+    margin-top: 20px;
+    padding: 50px 60px 50px 60px;
+
+
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 300px;
+    max-width: 400px;
+    min-width: 315px;
+    height: auto;
+
+    text-align: center;
+
+    background-color: var(--gray5);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+.itemHover{
+    transition: all 0.3s;
+}
+.itemHover:hover{
+    transform: translate(0px, -5px);
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+}
+.licensepage-pricingcard h3{
+    font-weight: 500;
+    font-size: 2rem;
+}
+.licensepage-pricingcard article{
+    background-color: var(--gray6);
+    display: flex;
+    justify-content: space-between;
+    width: 120%;
+    padding: 20px;
+    border-radius: 10px;
+}
+.licensepage-pricingcard p{
+    font-size: 1.1rem;
+    font-weight: 200;
+}
+.lText, .rText{
+    font-size: 10rem;
+}
+.lText{
+    text-align: left;
+}
+.rText{
+    text-align: right;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Contact page                                */
+/* -------------------------------------------------------------------------- */
+
+.contactgrid-wrapper{
+    width: 75%;
+    margin-bottom: 110px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "te"
+    "fo"
+    "cc"
+    ;
+}
+#contactgrid-text{
+    grid-area: te;
+    text-align: center;
+    width: 75%;
+    margin-left: 12.5%;
+}
+
+#contactgrid-form{
+    padding-top: 10%;
+    grid-area: fo;
+}
+
+#contactgrid-contacts{
+    padding: 10%;
+    grid-area: cc;
+    color: var(--gray3);
+    border-top: 3px dashed var(--gray3);
+}
+
+.contactgrid-icons{
+    width: 15%;
+}
+
+#contactgrid-contacttext{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 25px;
+}
+
+#contactgrid-contacttext div{
+    gap: 20%;
+}
+
+#contactgrid-contacttext div p{
+    font-size: 1.5em;
+    color: var(--gray2);
+    text-align: center;
+    transition: color 0.3s;
+}
+
+#contactgrid-contacttext div p:hover{
+    color: var(--gray0);
+    cursor: pointer;
+}
+
+#contactgrid-contacts hr{
+    border: none;
+    border-top: 3px dashed var(--gray3);
+}
+
+#contactgrid-socialicons{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: -10%;
+    margin-right: -10%;
+    height: 100px;
+    display: flex;
+    gap: 10px;
+}
+
+.contactgrid-circle{
+    width: 20%;
+    aspect-ratio: 1/1;
+    border-radius: 100px;
+    background-color: var(--gray7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.contactgrid-circle img{
+    width: 50%;
+    transition: filter 0.3s;
+}
+
+.contactgrid-circle:hover{
+    background-color: var(--gray1);
+    cursor: pointer;
+}
+
+.contactgrid-circle:hover img {
+    filter: none;
+}
+
+
+input, textarea{
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+    color: var(--gray6);
+    background-color: var(--gray1);
+    resize:vertical;
+    font-family: var(--font-head);
+}
+input[type=button]{
+    width: 90%;
+    color: var(--gray0);
+    font-family: var(--font-head);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: auto;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                      -                                     */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                 ABOUT PAGE                                 */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                      -                                     */
+/* -------------------------------------------------------------------------- */
+
+#aboutpage-wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "i1"
+    "t1"
+    "i2"
+    "t2"
+    "i3"
+    "t3"
+    "i4"
+    "t4"
+    ;
+
+    width: 80%;
+    overflow: hidden;
+}
+
+.aboutpage-card{
+    padding: 7%;
+}
+
+.aboutpage-bordertop{
+    border-top: 5px dashed var(--gray7);
+}
+
+.aboutpage-card img{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.aboutpage-card h3{
+    font-size: 2.2em;
+    font-weight: 300;
+}
+.aboutpage-card h3 em, .aboutpage-card p em{
+    font-weight: 600;
+}
+
+.aboutpage-card p{
+    font-size: 1.2em;
+    font-weight: 200;
+}
+
+
+#aboutpage-image1{
+    grid-area: i1;
+}
+#aboutpage-image2{
+    grid-area: i2;
+}
+#aboutpage-image3{
+    grid-area: i3;
+}
+#aboutpage-image4{
+    grid-area: i4;
+}
+#aboutpage-text1{
+    grid-area: t1;
+}
+#aboutpage-text2{
+    grid-area: t2;
+}
+#aboutpage-text3{
+    grid-area: t3;
+}
+#aboutpage-text4{
+    grid-area: t4;
+}
+
+
+#aboutpage-text1 p em, #aboutpage-text1 h3 em{
+    color: var(--red);
+}
+#aboutpage-text2 p em, #aboutpage-text2 h3 em{
+    color: var(--green);
+}
+#aboutpage-text3 p em, #aboutpage-text3 h3 em{
+    color: var(--blue);
+}
+#aboutpage-text4 p em, #aboutpage-text4 h3 em{
+    color: var(--pink);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            Individual Game Pages                           */
+/* -------------------------------------------------------------------------- */
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                      -                                     */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                MEDIA QUERIES                               */
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                                      -                                     */
+/* -------------------------------------------------------------------------- */
+
+@media screen and (min-width: 800px) {
+    .gamespage-gameswrapper{
+        width: 70%;
+    }
+    #licensepage-title p{
+        width: 70%;
+    }
+    .licensepage-header{
+        width: 80%;
+    }
+    .licensepage-header h2{
+        font-size: 3em;
+    }
+    .contactgrid-wrapper{
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        "te te"
+        "fo cc"
+        ;
+    }
+    #contactgrid-contacts{
+        border: none;
+    }
+    .contactgrid-circle{
+        width: 17%;
+    }
+    #contactgrid-socialicons{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+    #aboutpage-wrapper{
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        "i1 t1"
+        "t2 i2"
+        "i3 t3"
+        "t4 i4"
+        ;
+    }
+    .aboutpage-card{
+        border-top: 5px dashed var(--gray7);
+    }
+    .titletext{
+        width: 60%;
+    }
+}
+
+
+@media screen and (max-width: 1280px){
+    .topnav-links{
+        margin-right: 64px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .topnav-text{
+        margin: 2%;
+    }
+    .games-wrapper{
+        display: grid;
+        grid-template-areas: 
+        "tx"
+        "g1"
+        "g2"
+        ;
+        width: 640px;
+    }
+}
+@media screen and (max-width: 850px){
+    .topnav-links{
+        z-index: 998;
+        position: absolute;
+        top: 64px;
+        right: -70vw;
+        margin-right: 0px;
+        background-color: var(--gray5);
+        width: 70vw;
+        height: 100vh;
+
+        padding-top: 20px;
+        padding-left: 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        box-shadow: inset 0px 5px 5px -2px rgba(0,0,0,0.9);
+    }
+    .topnav-text{
+        font-size: 1.5rem;
+        margin: 5%;
+    }
+    .topnav-hr{
+        display: inherit;
+        width: 100%;
+    }
+    .burger{
+        top: 0px;
+        position: absolute;
+    }
+}
+@media screen and (max-width: 640px){
+    .partners-wrapper{
+        width: 90vw;
+        margin-top: 25px;
+    }
+    .games-wrapper{
+        width: 100%;
+        overflow: hidden;
+    }
+    .gamecard{
+        width: 90%;
+    }
+    .games-allbutton{
+        width: 20em;
+    }
+    .licensing-wrapper{
+        display: grid;
+        grid-template-areas: 
+        "ar"
+        "se"
+        ;
+        grid-template-columns: 1fr;
+        width: 100%;
+        height: auto;
+        margin: 75px;
+    
+        margin-top: 100px;
+    }
+    .topnav-logo h1 {
+        font-size: 2.5em;
+    }
+}
