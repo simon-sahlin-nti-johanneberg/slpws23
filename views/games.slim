@@ -13,35 +13,24 @@ section#gamespage-title.flex-vertcenter
             | Unity
         | .
 
-
+- admin = true
 
 section.gamespage-gameswrapper
-
     - games.reverse.each do |game|
-        - if game['showInList'] == 1
-            article.gameitem
+        - if (game['showInList'] == 1 || admin)
+            article.gameitem class=('hidden' if game['showInList'] == 0)
                 img[src="#{game['imagePath']}" alt="game thumbnail"]
                 h3 = game['name']
                 p = game['description']
                 .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
-                    p
-                        | PLAY
-                .flex-center.button.button-thin.button-orange[onclick="location.href='/licensing';"]
-                    p
-                        | LICENSE
-        - else 
-            article.gameitem.hidden
-                img[src="#{game['imagePath']}" alt="game thumbnail"]
-                h3 = game['name']
-                p = game['description']
-                .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
-                    p
-                        | PLAY
-                .flex-center.button.button-thin.button-orange[onclick="location.href='/licensing';"]
-                    p
-                        | EDIT
-        
+                    p PLAY
+                .flex-center.button.button-thin.button-orange[onclick=(admin ? "location.href='/games/editgame/#{game['id']}';" : "location.href='/licensing';")]
+                    - if admin 
+                        p EDIT
+                    - else 
+                        p LICENSE
 
-    article.gameitem.addgameitem
-        //Add New Icon by Unicons Font on IconScout
-        img.svg-darkgray[src="img/svg/add-new.svg" alt="Branding icon"]
+    - if admin
+        article.gameitem.addgameitem[onclick="location.href='/games/addgame'"]
+            //Add New Icon by Unicons Font on IconScout
+            img.svg-darkgray[src="img/svg/add-new.svg" alt="Add new game icon"]

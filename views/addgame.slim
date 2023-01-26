@@ -2,10 +2,36 @@ section#gamespage-title.flex-vertcenter
     h2
         | Add game
 
-form action="/games/addgame" method="post" 
-    input type="text" name="title" placeholder="Game title"
-    input type="text" name="description" placeholder="Game description"
-    input type="text" name="imagePath" placeholder="Thumbnail image path"
-    p Published
-    input type="checkbox" name="display" placeholder="Showgame"
-    input type="submit" value="Create game"
+p Game preview: 
+
+article.gameitem
+    img[src="#{result['imagePath']}" alt="game thumbnail"]
+    h3 = result['name']
+    p = result['description']
+    .flex-center.button.button-thin
+        p PLAY
+    .flex-center.button.button-thin.button-orange
+            p LICENSE
+
+/p = result
+/p = result['name']
+
+div.addgameform
+    form action="/games/editgame" method="post" 
+        p Title
+        input type="text" name="title" placeholder="Game title" value=result['name']
+        p Description
+        input type="text" name="description" placeholder="Game description" value=result['description']
+        p Image path
+        input type="text" name="imagePath" placeholder="Thumbnail image path" value=result['imagePath']
+        p Published
+        input type="checkbox" name="display" placeholder="Showgame" checked=(result['showInList'] == 1)
+        input type="hidden" name="id" value=result['id']
+        input type="submit" value="Update Game"
+
+    - for i in 0..10 do
+        br/
+
+    form action="/games/deletegame" method="post" 
+        input type="hidden" name="id" value=result['id']
+        input type="submit" value="Delete Game"
