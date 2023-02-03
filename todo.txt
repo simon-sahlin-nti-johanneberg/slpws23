@@ -1,0 +1,10 @@
+Kommentar Crud
+Login och users
+
+Fixa så att bilder faktiskt ligger i databasen och inte bara en länk
+
+
+
+
+Blandar lite camelcase och _. kanske inte är problematiskt men vet vet
+

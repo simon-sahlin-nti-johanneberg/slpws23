@@ -17,11 +17,11 @@ section#gamespage-title.flex-vertcenter
 
 section.gamespage-gameswrapper
     - games.reverse.each do |game|
-        - if (game['showInList'] == 1 || admin)
-            article.gameitem class=('hidden' if game['showInList'] == 0)
-                img[src="#{game['imagePath']}" alt="game thumbnail"]
-                h3 = game['name']
-                p = game['description']
+        - if (game['visible'] == 1 || admin)
+            article.gameitem class=('hidden' if game['visible'] == 0)
+                img[src="#{game['thumbnailImage']}" alt="game thumbnail"]
+                h3 = game['title']
+                p = game['tagline']
                 .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
                     p PLAY
                 .flex-center.button.button-thin.button-orange[onclick=(admin ? "location.href='/games/editgame/#{game['id']}';" : "location.href='/licensing';")]
