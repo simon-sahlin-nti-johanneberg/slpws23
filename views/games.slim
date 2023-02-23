@@ -22,7 +22,7 @@ section.gamespage-gameswrapper
                 img[src="#{game['thumbnailImage']}" alt="game thumbnail"]
                 h3 = game['title']
                 p = game['tagline']
-                .flex-center.button.button-thin[onclick="location.href='//sominstudios.itch.io/sticky-slimes';"]
+                .flex-center.button.button-thin[onclick="location.href='/games/playgame/#{game['id']}';"]
                     p PLAY
                 .flex-center.button.button-thin.button-orange[onclick=(admin ? "location.href='/games/editgame/#{game['id']}';" : "location.href='/licensing';")]
                     - if admin 

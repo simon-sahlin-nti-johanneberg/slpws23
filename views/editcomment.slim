@@ -1,0 +1,11 @@
+section#gamespage-title.flex-vertcenter
+    h2
+        | Edit comment
+
+div.addgameform
+    form action="/games/editcomment" method="post" 
+        p Username here
+        input type="text" name="content" placeholder="Content" value=comment['content']
+        input type="hidden" name="id" value=comment['id']
+        input type="hidden" name="gameId" value=gameId
+        input type="submit" value="Update comment"

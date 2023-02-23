@@ -2,16 +2,16 @@ section#gamespage-title.flex-vertcenter
     h2
         | Add game
 
-p Game preview: 
-
-article.gameitem
-    img[src="#{result['thumbnailImage']}" alt="game thumbnail"]
-    h3 = result['title']
-    p = result['tagline']
-    .flex-center.button.button-thin
-        p PLAY
-    .flex-center.button.button-thin.button-orange
-            p LICENSE
+/!
+    p Game preview: 
+    article.gameitem
+        img[src="#{result['thumbnailImage']}" alt="game thumbnail"]
+        h3 = result['title']
+        p = result['tagline']
+        .flex-center.button.button-thin
+            p PLAY
+        .flex-center.button.button-thin.button-orange
+                p LICENSE
 
 /p = result
 /p = result['name']
@@ -20,12 +20,31 @@ div.addgameform
     form action="/games/editgame" method="post" 
         p Title
         input type="text" name="title" placeholder="Game title" value=result['title']
-        p Description
-        input type="text" name="description" placeholder="Game description" value=result['tagline']
-        p Image path
-        input type="text" name="imagePath" placeholder="Thumbnail image path" value=result['thumbnailImage']
+        p Tagline
+        input type="text" name="tagline" placeholder="Tagline" value=result['tagline']
+        p Iframe path
+        input type="text" name="iframePath" placeholder="Iframe path" value=result['iframePath']
+        p Full description
+        input type="text" name="fullDescription" placeholder="Full description" value=result['fullDescription']
         p Published
-        input type="checkbox" name="display" placeholder="Showgame" checked=(result['visible'] == 1)
+        input type="checkbox" name="visible" placeholder="Showgame" checked=(result['visible'] == 1)
+        p Thumbnail Image
+        input type="text" name="thumbnailImage" placeholder="path" value=result['thumbnailImage']
+        p Background image
+        input type="text" name="bgImage" placeholder="path" value=result['bgImage']
+        p Banner image
+        input type="text" name="bannerImage" placeholder="path" value=result['bannerImage']
+        p Background color 1
+        input type="text" name="colorBG1" placeholder="hex" value=result['colorBG1']
+        p Background color 2
+        input type="text" name="colorBG2" placeholder="hex" value=result['colorBG2']
+        p Background color 3
+        input type="text" name="colorBG3" placeholder="hex" value=result['colorBG3']
+        p Text color
+        input type="text" name="colorText" placeholder="hex" value=result['colorText']
+        p Link color
+        input type="text" name="colorLink" placeholder="hex" value=result['colorLink']
+
         input type="hidden" name="id" value=result['id']
         input type="submit" value="Update Game"
 
