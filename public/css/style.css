@@ -181,7 +181,7 @@ hr{
 
 .topnav-links{
     flex-grow: 1;
-    margin-right: 15vw;
+    /* margin-right: 0vw; */
     pointer-events: none;
     transition: transform 0.3s;
 }
@@ -195,6 +195,25 @@ hr{
     font-size: 1.2rem;
     font-family: var(--font-head);
     font-weight: 200;
+}
+
+.topnav-user{
+    height: 100%;
+    width: 17vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+.topnav-user > img{
+    border-radius: 9990px;
+    margin: 30px;
+    height: 80%;
+}
+
+.topnav-user > *{
+    cursor: pointer;
 }
 
 .topnav-opaque{
@@ -621,9 +640,21 @@ footer > hr{
 
 .addgameform{
     width: 40%;
+    margin: auto;
+    display: flex;
 }
 .addgameform > *{
     width: 100%;
+}
+.logintext{
+    display: flex;
+    margin: 25px;
+}
+.logintext > .link{
+    color: var(--blue);
+    text-decoration: underline;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 /* -------------------------------------------------------------------------- */

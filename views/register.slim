@@ -1,0 +1,22 @@
+section#gamespage-title.flex-vertcenter
+    h2
+        | Register user
+
+div.addgameform
+    form action="/user/register" method="post" 
+        p Username
+        input type="text" name="username" placeholder="Username" value=""
+        p Password
+        input type="text" name="password1" placeholder="Password" value=""
+        p Confirm password
+        input type="text" name="password2" placeholder="Password" value=""
+        p Profile picture url (hehe)
+        input type="text" name="profileImage" placeholder="Image path" value=""
+        input type="submit" value="Register"
+
+- if flash[:notice]
+    p.notice = flash[:notice]
+
+.logintext
+    p = "Already registered?"
+    p.link = "Log in"

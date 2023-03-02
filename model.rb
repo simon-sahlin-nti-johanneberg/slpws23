@@ -53,3 +53,8 @@ def create_comment(userId, gameId, content)
     db = connect_to_db("db/database.db")
     db.execute("INSERT INTO comments (userId, gameId, content, date) VALUES (?,?,?,?)", userId, gameId, content, 0)
 end
+
+def create_user(username, passwordDigest, profileImage)
+    db = connect_to_db("db/database.db")
+    db.execute("INSERT INTO users (username, passwordDigest, profileImage) VALUES (?,?,?)", username, passwordDigest, profileImage)
+end

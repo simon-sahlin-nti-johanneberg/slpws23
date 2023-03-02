@@ -3,7 +3,8 @@ require 'sinatra/reloader'
 require 'slim'
 require 'sqlite3'
 require_relative './model.rb'
-
+require 'sinatra/flash'
+require 'BCrypt'
 
 
 get('/')  do
@@ -100,6 +101,51 @@ post('/games/editcomment') do
   redirect("/games/playgame/#{gameId}")
 end
 
+get('/user/register') do
+  slim(:register)
+end
+
+post('/user/register') do
+  username = params[:username]
+  pass1 = params[:password1]
+  pass2 = params[:password2]
+  image = params[:profileImage]
+
+  flash[:notice] = "Test message" #LYCKADES INTE FÅ FLASH ATT FUNKA, FRÅGA EMIL NÄSTA LEKTION!!!!
+
+  #Validation ---- Finns säkert något snyggare / bättre sätt att göra detta, fråga Emil!
+  if get_all_from_where("users", "username", username).length > 0
+    p "Error: Username taken"
+    redirect('/user/register')
+  end
+
+  if username.length > 20
+    p "Error: Username too long"
+    redirect('/user/register')
+  end
+
+  if username.length < 5
+    p "Error: Username too short"
+    redirect('/user/register')
+  end
+
+  if pass1 != pass2
+    p "Error: Password do not match!"
+    redirect('/user/register')
+  end
+
+  if pass1.length < 5
+    p "Error: Password too short"
+    redirect('/user/register')
+  end
+
+
+  passDigest = BCrypt::Password.create(pass1)
+  create_user(username, passDigest, image)
+  p "Registered successfully!"
+
+  redirect('/user/register')
+end
 
 
 get('/debug') do
