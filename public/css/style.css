@@ -199,7 +199,7 @@ hr{
 
 .topnav-user{
     height: 100%;
-    width: 17vw;
+    padding-right: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -209,7 +209,9 @@ hr{
 .topnav-user > img{
     border-radius: 9990px;
     margin: 30px;
+    margin-right: 0px;
     height: 80%;
+    aspect-ratio: 1 / 1;
 }
 
 .topnav-user > *{

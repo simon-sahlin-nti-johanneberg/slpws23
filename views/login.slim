@@ -1,0 +1,18 @@
+section#gamespage-title.flex-vertcenter
+    h2
+        | Log in
+
+div.addgameform
+    form action="/user/login" method="post" 
+        p Username
+        input type="text" name="username" placeholder="Username" value=""
+        p Password
+        input type="password" name="password" placeholder="Password" value=""
+        input type="submit" value="Log in"
+
+- if flash[:notice]
+    p.notice = flash[:notice]
+
+.logintext
+    p = "Not already a member?"
+    p.link[onclick="location.href='/user/register';"] = "Sign up"

@@ -48,9 +48,9 @@ div.addgameform
         input type="hidden" name="id" value=result['id']
         input type="submit" value="Update Game"
 
-    - for i in 0..10 do
-        br/
+- for i in 0..10 do
+    br/
 
-    form action="/games/deletegame" method="post" 
-        input type="hidden" name="id" value=result['id']
-        input type="submit" value="Delete Game"
+form action="/games/deletegame" method="post" 
+    input type="hidden" name="id" value=result['id']
+    input type="submit" value="Delete Game"

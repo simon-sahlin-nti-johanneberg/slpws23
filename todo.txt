@@ -1,5 +1,6 @@
 Login och users
-
+Relationstabell
+(Sist av allt) Yardoc
 
 "Validering" i classroom
 "flash och notice" i classroom för inloggningssidan

@@ -6,6 +6,18 @@ require_relative './model.rb'
 require 'sinatra/flash'
 require 'BCrypt'
 
+enable :sessions
+
+before do
+  if (session[:userId] != nil)
+    p "test #{session[:userId]}"
+    userData = get_all_from_id("users", session[:userId])
+    p userData
+    @userId = session[:userId]
+    @username = userData["username"]
+    @profileImage = userData["profileImage"]
+  end
+end
 
 get('/')  do
   slim(:index)
@@ -111,31 +123,20 @@ post('/user/register') do
   pass2 = params[:password2]
   image = params[:profileImage]
 
-  flash[:notice] = "Test message" #LYCKADES INTE FÅ FLASH ATT FUNKA, FRÅGA EMIL NÄSTA LEKTION!!!!
+  flash[:notice] = "Test message"
 
   #Validation ---- Finns säkert något snyggare / bättre sätt att göra detta, fråga Emil!
-  if get_all_from_where("users", "username", username).length > 0
-    p "Error: Username taken"
+  usernameValidation = ValidateUsername(username)
+  if usernameValidation != nil
+    p usernameValidation
+    flash[:notice] = usernameValidation
     redirect('/user/register')
   end
 
-  if username.length > 20
-    p "Error: Username too long"
-    redirect('/user/register')
-  end
-
-  if username.length < 5
-    p "Error: Username too short"
-    redirect('/user/register')
-  end
-
-  if pass1 != pass2
-    p "Error: Password do not match!"
-    redirect('/user/register')
-  end
-
-  if pass1.length < 5
-    p "Error: Password too short"
+  passwordValidation = ValidatePassword(pass1, pass2)
+  if passwordValidation != nil
+    p passwordValidation
+    flash[:notice] = passwordValidation
     redirect('/user/register')
   end
 
@@ -143,8 +144,78 @@ post('/user/register') do
   passDigest = BCrypt::Password.create(pass1)
   create_user(username, passDigest, image)
   p "Registered successfully!"
+  flash[:notice] = "Registered successfully!"
 
-  redirect('/user/register')
+  redirect('/user/login')
+end
+
+get('/user/login') do
+  slim(:login)
+end
+
+post('/user/login') do
+  username = params[:username]
+  password = params[:password]
+
+  user = get_all_from_where("users", "username", username).first
+
+  #Authentication
+  if user != nil && BCrypt::Password.new(user['passwordDigest']) == password
+    p "Logged in successfully! #{user["id"]}"
+    session[:userId] = user["id"]
+    redirect('/')
+  end
+
+  p "LOGIN FAILED, Username or password was incorrect"
+  flash[:notice] = "Login failed, Username or password was incorrect"
+  redirect('/user/login')
+end
+
+get('/user/edit') do
+  slim(:userprofile)
+end
+
+post('/user/edit') do
+  bruh
+end
+
+post('/user/logout') do
+  session.destroy
+  redirect('/')
+end
+
+
+def ValidateUsername(username)
+  if get_all_from_where("users", "username", username).length > 0
+    p "Error: Username taken"
+    return "Error: Username taken"
+  end
+
+  if username.length > 20
+    p "Error: Username too long"
+    return "Error: Username too long"
+  end
+
+  if username.length < 5
+    p "Error: Username too short"
+    return "Error: Username too short"
+  end
+
+  return nil
+end
+
+def ValidatePassword(pass1, pass2)
+  if pass1 != pass2
+    p "Error: Password do not match!"
+    return "Error: Password do not match!"
+  end
+
+  if pass1.length < 5
+    p "Error: Password too short"
+    return "Error: Password too short"
+  end
+
+  return nil
 end
 
 

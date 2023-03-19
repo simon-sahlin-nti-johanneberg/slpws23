@@ -30,9 +30,18 @@ html[lang="en"]
                     | About
                 hr.topnav-hr
 
-            .topnav-user[onclick="location.href='/games/playgame/1';"]
-                p username bruh
-                img src="/img/Unknown_Member.jpg" alt=""/   
+
+            - if @userId != nil  
+                - link = "/user/edit"
+                - username = @username
+            - else 
+                - link = "/user/login"
+                - username = "Log In"
+            .topnav-user[onclick="location.href='#{link}';"]
+                p = username
+                img[src="#{@profileImage}" alt="" style=("display: none" if @userId == nil)]  
+
+            
             .burger
                 #line1
                 #line2
