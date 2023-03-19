@@ -10,9 +10,7 @@ enable :sessions
 
 before do
   if (session[:userId] != nil)
-    p "test #{session[:userId]}"
     userData = get_all_from_id("users", session[:userId])
-    p userData
     @userId = session[:userId]
     @username = userData["username"]
     @profileImage = userData["profileImage"]
@@ -40,8 +38,7 @@ get('/games/playgame/:id') do
   id = params[:id].to_i
   result = get_all_from_id('games', id)
   screenshots = get_all_from_where('screenshots','gameId', id)
-  comments = get_all_from_where('comments','gameId', id)
-  #Inner join här sen för att få namn på users från kommentarer
+  comments = get_comments(id)
   slim(:gamepage, locals:{result:result, screenshots:screenshots, comments:comments})
 end
 
@@ -125,7 +122,7 @@ post('/user/register') do
 
   flash[:notice] = "Test message"
 
-  #Validation ---- Finns säkert något snyggare / bättre sätt att göra detta, fråga Emil!
+  #Validation
   usernameValidation = ValidateUsername(username)
   if usernameValidation != nil
     p usernameValidation
@@ -160,23 +157,72 @@ post('/user/login') do
   user = get_all_from_where("users", "username", username).first
 
   #Authentication
-  if user != nil && BCrypt::Password.new(user['passwordDigest']) == password
-    p "Logged in successfully! #{user["id"]}"
-    session[:userId] = user["id"]
-    redirect('/')
+  passwordAuthentication = AuthenticatePassword(user, password)
+  if passwordAuthentication != nil
+    p passwordAuthentication
+    flash[:notice] = passwordAuthentication
+    redirect('/user/login')
   end
 
-  p "LOGIN FAILED, Username or password was incorrect"
-  flash[:notice] = "Login failed, Username or password was incorrect"
-  redirect('/user/login')
+  p "Logged in successfully! #{user["id"]}"
+  session[:userId] = user["id"]
+  redirect('/')
 end
 
 get('/user/edit') do
-  slim(:userprofile)
+  user = get_all_from_id("users", session[:userId])
+  slim(:userprofile, locals:{user:user})
 end
 
 post('/user/edit') do
-  bruh
+  userId = params[:userId].to_i
+  newUsername = params[:username]
+  oldPassword = params[:password1]
+  newPassword = params[:password2]
+  newPasswordC = params[:password3]
+  newImage = params[:profileImage]
+
+  user = get_all_from_id("users", userId)
+  p "va"
+  p user
+  p userId
+
+  flash[:notice] = "Changes made successfully"
+
+  passwordAuthentication = AuthenticatePassword(user, oldPassword)
+  if passwordAuthentication != nil
+    p passwordAuthentication
+    flash[:notice] = "Incorrect password"
+    redirect('/user/edit')
+  end
+
+  #Validation
+  if newUsername != user["username"]
+    usernameValidation = ValidateUsername(newUsername)
+    if usernameValidation != nil
+      p usernameValidation
+      flash[:notice] = "\n #{usernameValidation}"
+    else
+      update_value("users", "username", newUsername, userId)
+    end
+  end
+
+  if newPassword.length > 0 && newPasswordC.length > 0
+    passwordValidation = ValidatePassword(newPassword, newPasswordC)
+    if passwordValidation != nil
+      p passwordValidation
+      flash[:notice] = "\n #{passwordValidation}"
+    else
+      passDigest = BCrypt::Password.create(newPassword)
+      update_value("users", "passwordDigest", passDigest, userId)
+    end
+  end
+
+  if newImage != user["profileImage"]
+    update_value("users", "profileImage", newImage, userId)
+  end
+
+  redirect('/user/edit')
 end
 
 post('/user/logout') do
@@ -218,6 +264,17 @@ def ValidatePassword(pass1, pass2)
   return nil
 end
 
+def AuthenticatePassword(user, password)
+  #Authentication
+  if user != nil && BCrypt::Password.new(user['passwordDigest']) == password
+    p "Logged in successfully! #{user["id"]}"
+    return nil
+  end
+
+  p "LOGIN FAILED, Username or password was incorrect"
+  return "Login failed, Username or password was incorrect"
+end
+
 
 get('/debug') do
   slim(:debug)
@@ -225,6 +282,16 @@ end
 
 get('/debug/debug') do
   slim(:debug)
+end
+
+helpers do
+  def IsAdmin(userId)
+    user = get_all_from_id("users", userId)
+    if user == nil
+      return false
+    end
+    return user["isAdmin"] == 1
+  end
 end
 
 =begin

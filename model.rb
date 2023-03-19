@@ -58,3 +58,9 @@ def create_user(username, passwordDigest, profileImage)
     db = connect_to_db("db/database.db")
     db.execute("INSERT INTO users (username, passwordDigest, profileImage) VALUES (?,?,?)", username, passwordDigest, profileImage)
 end
+
+def get_comments(gameId)
+    db = connect_to_db("db/database.db")
+    result = db.execute("SELECT comments.*, users.username, users.profileImage FROM comments INNER JOIN users ON comments.userId=users.id WHERE gameId = ?", gameId)
+    return result
+end

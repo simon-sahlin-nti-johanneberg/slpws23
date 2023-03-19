@@ -3,17 +3,18 @@ section#gamespage-title.flex-vertcenter
         | User profile
 
 div.addgameform
-    form action="/user/register" method="post" 
+    form action="/user/edit" method="post" 
         p Username
-        input type="text" name="username" placeholder="Username" value=""
+        input type="text" name="username" placeholder="Username" value=user['username']
         p Old password
         input type="password" name="password1" placeholder="Password" value=""
         p New password
-        input type="password" name="password1" placeholder="Password" value=""
-        p Confirm new password
         input type="password" name="password2" placeholder="Password" value=""
+        p Confirm new password
+        input type="password" name="password3" placeholder="Password" value=""
         p Profile picture url
-        input type="text" name="profileImage" placeholder="Image path" value=""
+        input type="text" name="profileImage" placeholder="Image path" value=user["profileImage"]
+        input type="hidden" name="userId" value=user["id"]
         input type="submit" value="Edit profile"
 
 - if flash[:notice]

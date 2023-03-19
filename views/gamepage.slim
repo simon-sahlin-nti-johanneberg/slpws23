@@ -44,64 +44,31 @@ section#gamespage-title.flex-vertcenter[style="background-color: #{result['color
                                 | Kevin Mcleod - Home Base Groove
                 #gamepage-comments
                     h2[style="color: #{result['colorText']};"] Comments
-                    form action="/games/createcomment" method="post" 
-                        input type="text" name="content" placeholder="Write a comment..."
-                        input type="hidden" name="gameId" value=result['id']
-                        input type="hidden" name="userId" value=2
-                        input type="submit" value="Post comment"
+                    /! Authorization 
+                    - if @userId != nil 
+                        form action="/games/createcomment" method="post" 
+                            input type="text" name="content" placeholder="Write a comment..."
+                            input type="hidden" name="gameId" value=result['id']
+                            input type="hidden" name="userId" value="#{@userId}"
+                            input type="submit" value="Post comment"
                     - comments.reverse.each do |comment|
                         #comment-div
-                            img#comment-image src="/img/gaming.jpg"
+                            img#comment-image src="#{comment['profileImage']}"
                             #comment-innerdiv
-                                P#comment-username = comment['userId'] 
+                                P#comment-username = comment['username'] 
                                 p#comment-content = comment['content']
-                                #comment-links
-                                    form action="/games/editcomment" method="get" 
-                                        input type="hidden" name="id" value=comment['id']
-                                        input type="hidden" name="gameId" value=result['id']
-                                        input type="submit" value="Edit"
-                                    form action="/games/deletecomment" method="post" 
-                                        input type="hidden" name="id" value=comment['id']
-                                        input type="hidden" name="gameId" value=result['id']
-                                        input type="submit" value="Delete"
-
-                    #comment-div
-                        img#comment-image src="/img/gaming.jpg"
-                        #comment-innerdiv
-                            P#comment-username Username 
-                            p#comment-content CONTENT. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, excepturi.
-                            #comment-links
-                                a Edit
-                                a Delete
-
-                    #comment-div
-                        img#comment-image src="/img/gaming.jpg"
-                        #comment-innerdiv
-                            P#comment-username Username 
-                            p#comment-content CONTENT. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque, excepturi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus iste dolorem magni ipsum. Delectus esse minima tempore hic rem facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti molestias deserunt reprehenderit animi, harum saepe et magnam quas id cumque?
-                            #comment-links
-                                a Edit
-                                a Delete
+                                /! Authorization 
+                                - if @userId == comment["userId"] || IsAdmin(@userId)
+                                    #comment-links
+                                        form action="/games/editcomment" method="get" 
+                                            input type="hidden" name="id" value=comment['id']
+                                            input type="hidden" name="gameId" value=result['id']
+                                            input type="submit" value="Edit"
+                                        form action="/games/deletecomment" method="post" 
+                                            input type="hidden" name="id" value=comment['id']
+                                            input type="hidden" name="gameId" value=result['id']
+                                            input type="submit" value="Delete"
 
             #gamepage-rightcol
                 - screenshots.each do |screenshot|
                     img[src=screenshot['imagePath'] alt="game screenshot"]
-
-
-/*
-    Title
-    Tagline
-    Game upload (iframe)
-    Full description
-    Genre/Tags (relationstabell)
-    Visibility
-    Cover Image
-    Screenshots
-    Page background image
-    Page banner image
-    Page colors
-        Background 1
-        Background 2
-        Background 3
-        Text
-        Link

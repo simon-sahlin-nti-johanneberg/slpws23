@@ -13,7 +13,7 @@ section#gamespage-title.flex-vertcenter
             | Unity
         | .
 
-- admin = true
+- admin = IsAdmin(@userId)
 
 section.gamespage-gameswrapper
     - games.reverse.each do |game|

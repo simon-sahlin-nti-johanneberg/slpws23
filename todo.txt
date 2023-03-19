@@ -1,4 +1,3 @@
-Login och users
 Relationstabell
 (Sist av allt) Yardoc
 
@@ -20,3 +19,5 @@ man kan lämna tomma kommentarer
 Extra:
 Fixa så att nav på gamepages stämmer överens med color scheme
 Gamepage fungerar inte på mindre fönster
+Fixa att formen på kontaktsidan faktiskt fungerar
+("Log in to leave comments" skylt)
