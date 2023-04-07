@@ -2,22 +2,8 @@ section#gamespage-title.flex-vertcenter
     h2
         | Add game
 
-/!
-    p Game preview: 
-    article.gameitem
-        img[src="#{result['thumbnailImage']}" alt="game thumbnail"]
-        h3 = result['title']
-        p = result['tagline']
-        .flex-center.button.button-thin
-            p PLAY
-        .flex-center.button.button-thin.button-orange
-                p LICENSE
-
-/p = result
-/p = result['name']
-
 div.addgameform
-    form action="/games/editgame" method="post" 
+    form action="/games/#{result['id']}/update" method="post" 
         p Title
         input type="text" name="title" placeholder="Game title" value=result['title']
         p Tagline
@@ -51,6 +37,6 @@ div.addgameform
 - for i in 0..10 do
     br/
 
-form action="/games/deletegame" method="post" 
+form action="/games/#{result['id']}/delete" method="post" 
     input type="hidden" name="id" value=result['id']
     input type="submit" value="Delete Game"

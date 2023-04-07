@@ -3,7 +3,7 @@ section#gamespage-title.flex-vertcenter
         | User profile
 
 div.addgameform
-    form action="/user/edit" method="post" 
+    form action="/user/#{user["id"]}/update" method="post" 
         p Username
         input type="text" name="username" placeholder="Username" value=user['username']
         p Old password

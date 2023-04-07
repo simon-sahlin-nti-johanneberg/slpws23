@@ -3,7 +3,7 @@ section#gamespage-title.flex-vertcenter
         | Edit comment
 
 div.addgameform
-    form action="/games/editcomment" method="post" 
+    form action="/games/comments/#{comment['id']}/update" method="post" 
         p Change comment:
         input type="text" name="content" placeholder="Content" value=comment['content']
         input type="hidden" name="id" value=comment['id']

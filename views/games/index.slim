@@ -15,14 +15,12 @@ section#gamespage-title.flex-vertcenter
 
 - admin = IsAdmin(@userId)
 
-form#genres method="GET" action="/games"
+form#genres action="/games" method="GET"
     label[for="gameFilter"] Filter:
-    select[name="gameFilter"]
+    select[name="gameFilter" value="Action"]
         option[value="0"] All
-        option[value="1"] Action
-        option[value="2"] Puzzle
-        option[value="3"] Platformer
-        option[value="4"] Shooter
+        - genres.each do |genre|
+            option[value=genre["id"] selected=("selected" if genre["id"]==selectedGenre)] = genre["genre"] 
     button type="submit" Submit
 
 section.gamespage-gameswrapper
@@ -32,15 +30,15 @@ section.gamespage-gameswrapper
                 img[src="#{game['thumbnailImage']}" alt="game thumbnail"]
                 h3 = game['title']
                 p = game['tagline']
-                .flex-center.button.button-thin[onclick="location.href='/games/playgame/#{game['id']}';"]
+                .flex-center.button.button-thin[onclick="location.href='/games/#{game['id']}';"]
                     p PLAY
-                .flex-center.button.button-thin.button-orange[onclick=(admin ? "location.href='/games/editgame/#{game['id']}';" : "location.href='/licensing';")]
+                .flex-center.button.button-thin.button-orange[onclick=(admin ? "location.href='/games/#{game['id']}/edit';" : "location.href='/licensing';")]
                     - if admin 
                         p EDIT
                     - else 
                         p LICENSE
 
+
     - if admin
-        article.gameitem.addgameitem[onclick="location.href='/games/addgame'"]
-            //Add New Icon by Unicons Font on IconScout
+        article.gameitem.addgameitem[onclick="location.href='/games/create'"]
             img.svg-darkgray[src="img/svg/add-new.svg" alt="Add new game icon"]

@@ -41,7 +41,7 @@ end
 
 def create_game()
     db = connect_to_db("db/database.db")
-    db.execute("INSERT INTO games (title, tagline, thumbnailImage, visible) VALUES (?,?,?,?)", "Game Title", "Game Description", "img/thumbnails/thumb-Blinded.jpg", 0)
+    db.execute("INSERT INTO games (title, tagline, iframePath, fullDescription, visible, thumbnailImage, bgImage, bannerImage, colorBG1, colorBG2, colorBG3, colorText, colorLink) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", "Game Title", "Tagline", "", "Game Description", 0, "img/thumbnails/thumb-Blinded.jpg", "", "", "#eeeeee", "#ffffff", "#e5e5e5", "#222222", "#fa5c5c")
 end
 
 def update_game(id, title, tagline, iframePath, fullDescription, visible, thumbnailImage, bgImage, bannerImage, colorBG1, colorBG2, colorBG3, colorText, colorLink)

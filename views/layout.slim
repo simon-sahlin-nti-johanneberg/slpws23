@@ -32,7 +32,7 @@ html[lang="en"]
 
 
             - if @userId != nil  
-                - link = "/user/edit"
+                - link = "/user/#{@userId}/edit"
                 - username = @username
             - else 
                 - link = "/user/login"

@@ -1,8 +1,4 @@
 section#gamespage-title.flex-vertcenter[style="background-color: #{result['colorBG1']};"]
-    /h2
-    /    | WIP
-    /p = result
-    /p = screenshots
 
 #gamepage-mainwrapper[style="background-image: url(#{result['bgImage']}); background-color: #{result['colorBG1']};"]
     #gamepage-maincolumn[style="background-color: #{result['colorBG2']};"]
@@ -16,38 +12,11 @@ section#gamespage-title.flex-vertcenter[style="background-color: #{result['color
             #gamepage-leftcol
                 #gamepage-formattedtext
                     p[style="color: #{result['colorText']};"] = result['fullDescription']
-                    /!
-                        p
-                            strong
-                                | Bend Time In Your Favour To Reach The Exit!
-                        p
-                            | Made for the Brackeys Game Jam!
-                        p
-                            | Controlls :
-                        p
-                            | WASD To Move
-                        p
-                            | R To Restart
-                        p
-                            | Click on a object to reverse it in time
-                        p
-                            a[href="https://www.youtube.com/watch?v=J2hoRkFrap8" target="_blank" referrerpolicy="origin" rel="nofollow noopener"]
-                                | Walktrough if you're stuck
-                            br
-                        p
-                            strong
-                                | Credits :
-                        blockquote
-                            p
-                                | Made By SominStudios
-                            br
-                            p
-                                | Kevin Mcleod - Home Base Groove
                 #gamepage-comments
                     h2[style="color: #{result['colorText']};"] Comments
                     /! Authorization 
                     - if @userId != nil 
-                        form action="/games/createcomment" method="post" 
+                        form action="/games/#{result['id']}/comments/create" method="post" 
                             input type="text" name="content" placeholder="Write a comment..."
                             input type="hidden" name="gameId" value=result['id']
                             input type="hidden" name="userId" value="#{@userId}"
@@ -56,16 +25,16 @@ section#gamespage-title.flex-vertcenter[style="background-color: #{result['color
                         #comment-div
                             img#comment-image src="#{comment['profileImage']}"
                             #comment-innerdiv
-                                P#comment-username = comment['username'] 
-                                p#comment-content = comment['content']
+                                P#comment-username[style="color: #{result['colorText']};"] = comment['username'] 
+                                p#comment-content[style="color: #{result['colorText']};"] = comment['content']
                                 /! Authorization 
                                 - if @userId == comment["userId"] || IsAdmin(@userId)
                                     #comment-links
-                                        form action="/games/editcomment" method="get" 
+                                        form action="/games/comments/#{comment['id']}/edit" method="get" 
                                             input type="hidden" name="id" value=comment['id']
                                             input type="hidden" name="gameId" value=result['id']
                                             input type="submit" value="Edit"
-                                        form action="/games/deletecomment" method="post" 
+                                        form action="/games/comments/#{comment['id']}/delete" method="post" 
                                             input type="hidden" name="id" value=comment['id']
                                             input type="hidden" name="gameId" value=result['id']
                                             input type="submit" value="Delete"

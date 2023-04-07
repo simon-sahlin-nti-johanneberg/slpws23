@@ -1,26 +1,23 @@
-Relationstabell
-L8 - Restfull routes
 Mer krut på dokumentation
-säkra upp routes (Typ dubbelkolla att personen som tar bort en kommentar faktiskt är personen som äger kommentaren)
 (Sist av allt) Yardoc
 
-"Validering" i classroom
-"flash och notice" i classroom för inloggningssidan
-"Lägga till bilder" i classroom för allting (inte krav men hade varit bättre än nuvarande lösning)
+"Validering" i classroom.
+"flash och notice" i classroom för inloggningssidan.
+"Lägga till bilder" i classroom för allting. (inte krav men hade varit bättre än nuvarande lösning)
 
-Blandar lite camelcase och _. kanske inte är problematiskt men vet vet (ibland i css bangar jag båda helt ochskriversåhär)
+Blandar lite camelcase och _. kanske inte är problematiskt men vet vet. (ibland i css bangar jag båda helt ochskriversåhär)
 
 Fixa så att full desc visas korrekt (super jobbigt)
-crud på screenshots (jobbigt)
-"gamepage" ser inte samma ut på min sida som på itch (inte så viktigt)
+crud på screenshots och genrar. (jobbigt)
+"gamepage" ser inte samma ut på min sida som på itch. (inte så viktigt)
 
 Optimisering:
 (DRY) gör så att "gamepage" inte repeterar 'style' flera gånger. Syns tydligast på p taggen.
-"Creategame" funktionen i model.rb är lite onödig. Flytta till app.rb och använd "editgame" funktionen istället
-man kan lämna tomma kommentarer
+"Creategame" funktionen i model.rb är lite onödig. Flytta till app.rb och använd "editgame" funktionen istället.
+Man kan lämna tomma kommentarer
 
 Extra:
-Fixa så att nav på gamepages stämmer överens med color scheme
-Gamepage fungerar inte på mindre fönster
-Fixa att formen på kontaktsidan faktiskt fungerar
-("Log in to leave comments" skylt)
+Fixa så att nav på gamepages stämmer överens med color scheme.
+Gamepage fungerar inte på mindre fönster.
+Fixa att formen på kontaktsidan faktiskt fungerar.
+"Log in to leave comments" skylt.

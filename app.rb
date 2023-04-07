@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------- #
+#                                    Setup                                   #
+# -------------------------------------------------------------------------- #
 require 'sinatra'
 require 'sinatra/reloader'
 require 'slim'
@@ -8,54 +11,79 @@ require 'BCrypt'
 
 enable :sessions
 
-before do
-  if (session[:userId] != nil)
-    userData = get_all_from_id("users", session[:userId])
-    @userId = session[:userId]
-    @username = userData["username"]
-    @profileImage = userData["profileImage"]
-  end
-end
+# -------------------------------------------------------------------------- #
+#                               General Routes                               #
+# -------------------------------------------------------------------------- #
 
 get('/')  do
   slim(:index)
 end 
 
-get('/games') do
-  genre = params[:gameFilter].to_i
-  result = get_games_by_genre(genre)
-  slim(:games, locals:{games:result})
-end 
-
 get('/licensing') do
-  slim(:licensing)
+  slim(:"general/licensing")
 end
 
 get('/about') do
-  slim(:about)
+  slim(:"general/about")
 end
 
-get('/games/playgame/:id') do
-  id = params[:id].to_i
-  result = get_all_from_id('games', id)
-  screenshots = get_all_from_where('screenshots','gameId', id)
-  comments = get_comments(id)
-  slim(:gamepage, locals:{result:result, screenshots:screenshots, comments:comments})
-end
+# -------------------------------------------------------------------------- #
+#                                 Game Routes                                #
+# -------------------------------------------------------------------------- #
 
-get('/games/addgame') do
+get('/games') do
+  genre = params[:gameFilter].to_i
+  if (genre != 0)
+    result = get_games_by_genre(genre)
+  else
+    result = get_all("games")
+  end
+  genres = get_all("genres")
+  slim(:"games/index", locals:{games:result, genres:genres, selectedGenre:genre})
+end 
+
+get('/games/create') do
+  #Authorization
+  if (!IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
   create_game()
   redirect('/games')
 end
 
-get('/games/editgame/:id') do
+get('/games/:id') do
   id = params[:id].to_i
   result = get_all_from_id('games', id)
-  slim(:addgame, locals:{result:result})
+  screenshots = get_all_from_where('screenshots','gameId', id)
+  comments = get_comments(id)
+
+  #Authorization
+  if (result["visible"] == 0 && !IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
+  slim(:"games/show", locals:{result:result, screenshots:screenshots, comments:comments})
 end
 
-post('/games/editgame') do
-  id = params[:id]
+get('/games/:id/edit') do
+  #Authorization
+  if (!IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
+  id = params[:id].to_i
+  result = get_all_from_id('games', id)
+  slim(:"games/edit", locals:{result:result})
+end
+
+post('/games/:id/update') do
+  #Authorization
+  if (!IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
+  id = params[:id].to_i
   title = params[:title]
   tagline = params[:tagline]
   iframePath = params[:iframePath]
@@ -74,68 +102,99 @@ post('/games/editgame') do
   redirect('/games')
 end
 
-post('/games/deletegame') do
+post('/games/:id/delete') do
+  #Authorization
+  if (!IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
   id = params[:id]
   delete_id('games', id)
   redirect('/games')
 end
 
-post('/games/createcomment') do
+# -------------------------------------------------------------------------- #
+#                               Comment Routes                               #
+# -------------------------------------------------------------------------- #
+
+post('/games/:id/comments/create') do
   userId = params[:userId].to_i
-  gameId = params[:gameId].to_i
+  gameId = params[:id].to_i
   content = params[:content]
 
   create_comment(userId, gameId, content)
-  redirect "/games/playgame/#{gameId}"
+  redirect "/games/#{gameId}"
 end
 
-post('/games/deletecomment') do
-  id = params[:id]
+post('/games/comments/:id/delete') do
+  comment = get_all_from_id('comments', id)
+  id = params[:id].to_i
   gameId = params[:gameId]
+
+  #Authorization
+  if (session[:userId] != comment["userId"] && !IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
   delete_id('comments', id)
-  redirect("/games/playgame/#{gameId}")
+  redirect("/games/#{gameId}")
 end
 
-get('/games/editcomment') do
-  id = params[:id]
+get('/games/comments/:id/edit') do
+  id = params[:id].to_i
   comment = get_all_from_id('comments', id)
   gameId = params[:gameId]
-  slim(:editcomment, locals:{comment:comment, gameId:gameId})
+
+  #Authorization
+  if (session[:userId] != comment["userId"] && !IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
+  slim(:"comments/edit", locals:{comment:comment, gameId:gameId})
 end
 
-post('/games/editcomment') do
+post('/games/comments/:id/update') do
   id = params[:id].to_i
   gameId = params[:gameId].to_i
   content = params[:content]
+  comment = get_all_from_id('comments', id)
+
+  #Authorization 
+  if (session[:userId] != comment["userId"] && !IsAdmin(session[:userId]))
+    redirect('/')
+  end
+
   update_value('comments', 'content', content, id)
-  redirect("/games/playgame/#{gameId}")
+  redirect("/games/#{gameId}")
 end
 
-get('/user/register') do
-  slim(:register)
+# -------------------------------------------------------------------------- #
+#                                 User Routes                                #
+# -------------------------------------------------------------------------- #
+
+get('/user/new') do
+  slim(:"user/new")
 end
 
-post('/user/register') do
+post('/user/create') do
   username = params[:username]
   pass1 = params[:password1]
   pass2 = params[:password2]
   image = params[:profileImage]
-
-  flash[:notice] = "Test message"
 
   #Validation
   usernameValidation = ValidateUsername(username)
   if usernameValidation != nil
     p usernameValidation
     flash[:notice] = usernameValidation
-    redirect('/user/register')
+    redirect('/user/new')
   end
 
   passwordValidation = ValidatePassword(pass1, pass2)
   if passwordValidation != nil
     p passwordValidation
     flash[:notice] = passwordValidation
-    redirect('/user/register')
+    redirect('/user/new')
   end
 
 
@@ -148,7 +207,7 @@ post('/user/register') do
 end
 
 get('/user/login') do
-  slim(:login)
+  slim(:"user/login")
 end
 
 post('/user/login') do
@@ -170,13 +229,26 @@ post('/user/login') do
   redirect('/')
 end
 
-get('/user/edit') do
-  user = get_all_from_id("users", session[:userId])
-  slim(:userprofile, locals:{user:user})
+get('/user/:id/edit') do
+  id = params[:id].to_i
+  #Authorization 
+  if (session[:userId] != id)
+    redirect('/')
+  end
+  
+  flash[:notice] = ""
+  user = get_all_from_id("users", id)
+  slim(:"user/edit", locals:{user:user})
 end
 
-post('/user/edit') do
-  userId = params[:userId].to_i
+post('/user/:id/update') do
+  userId = params[:id].to_i
+
+  #Authorization 
+  if (session[:userId] != id)
+    redirect('/')
+  end
+
   newUsername = params[:username]
   oldPassword = params[:password1]
   newPassword = params[:password2]
@@ -184,9 +256,6 @@ post('/user/edit') do
   newImage = params[:profileImage]
 
   user = get_all_from_id("users", userId)
-  p "va"
-  p user
-  p userId
 
   flash[:notice] = "Changes made successfully"
 
@@ -194,7 +263,7 @@ post('/user/edit') do
   if passwordAuthentication != nil
     p passwordAuthentication
     flash[:notice] = "Incorrect password"
-    redirect('/user/edit')
+    redirect("/user/#{userId}/edit")
   end
 
   #Validation
@@ -223,7 +292,7 @@ post('/user/edit') do
     update_value("users", "profileImage", newImage, userId)
   end
 
-  redirect('/user/edit')
+  redirect("/user/#{userId}/edit")
 end
 
 post('/user/logout') do
@@ -231,6 +300,9 @@ post('/user/logout') do
   redirect('/')
 end
 
+# -------------------------------------------------------------------------- #
+#                                  Functions                                 #
+# -------------------------------------------------------------------------- #
 
 def ValidateUsername(username)
   if get_all_from_where("users", "username", username).length > 0
@@ -277,13 +349,6 @@ def AuthenticatePassword(user, password)
 end
 
 
-get('/debug') do
-  slim(:debug)
-end
-
-get('/debug/debug') do
-  slim(:debug)
-end
 
 helpers do
   def IsAdmin(userId)
@@ -295,14 +360,11 @@ helpers do
   end
 end
 
-=begin
-post('/games/addgame') do
-  title = params[:title]
-  desc = params[:description]
-  imgPath = params[:imagePath]
-  show = !params[:display].nil? ? 1 : 0
-
-  db = SQLite3::Database.new("db/database.db")
-  db.execute("INSERT INTO games (name, description, imagePath, showInList) VALUES (?,?,?,?)", title, desc, imgPath, show)
-  redirect('/games')
-=end
+before do
+  if (session[:userId] != nil)
+    userData = get_all_from_id("users", session[:userId])
+    @userId = session[:userId]
+    @username = userData["username"]
+    @profileImage = userData["profileImage"]
+  end
+end
