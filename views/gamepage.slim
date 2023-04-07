@@ -6,8 +6,9 @@ section#gamespage-title.flex-vertcenter[style="background-color: #{result['color
 
 #gamepage-mainwrapper[style="background-image: url(#{result['bgImage']}); background-color: #{result['colorBG1']};"]
     #gamepage-maincolumn[style="background-color: #{result['colorBG2']};"]
-        #gamepage-header 
-            img[src=result['bannerImage'] alt="game header"]
+        - if result['bannerImage'].length > 1
+            #gamepage-header 
+                img[src=result['bannerImage'] alt="game header"]
         #gamepage-iframe 
             iframe [allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated" src=result['iframePath'] frameborder="0" allowfullscreen="true" scrolling="no" allowtransparency="true" webkitallowfullscreen="true" mozallowfullscreen="true" msallowfullscreen="true" id="game_drop" width="1280px" height="720px" style="background-color: #{result['colorBG3']};"]
 

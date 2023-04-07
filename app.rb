@@ -21,8 +21,9 @@ get('/')  do
   slim(:index)
 end 
 
-get('/games')  do
-  result = get_all('games')
+get('/games') do
+  genre = params[:gameFilter].to_i
+  result = get_games_by_genre(genre)
   slim(:games, locals:{games:result})
 end 
 

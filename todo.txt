@@ -1,4 +1,7 @@
 Relationstabell
+L8 - Restfull routes
+Mer krut på dokumentation
+säkra upp routes (Typ dubbelkolla att personen som tar bort en kommentar faktiskt är personen som äger kommentaren)
 (Sist av allt) Yardoc
 
 "Validering" i classroom

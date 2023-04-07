@@ -15,6 +15,16 @@ section#gamespage-title.flex-vertcenter
 
 - admin = IsAdmin(@userId)
 
+form#genres method="GET" action="/games"
+    label[for="gameFilter"] Filter:
+    select[name="gameFilter"]
+        option[value="0"] All
+        option[value="1"] Action
+        option[value="2"] Puzzle
+        option[value="3"] Platformer
+        option[value="4"] Shooter
+    button type="submit" Submit
+
 section.gamespage-gameswrapper
     - games.reverse.each do |game|
         - if (game['visible'] == 1 || admin)

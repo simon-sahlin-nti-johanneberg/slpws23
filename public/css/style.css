@@ -1043,6 +1043,10 @@ input[type=button]{
     justify-content: center;
 }
 
+#gamepage-header img{
+    width: 100%;
+}
+
 #gamepage-maincolumn{
     min-height: 879px;
     width: 1280px;

@@ -64,3 +64,9 @@ def get_comments(gameId)
     result = db.execute("SELECT comments.*, users.username, users.profileImage FROM comments INNER JOIN users ON comments.userId=users.id WHERE gameId = ?", gameId)
     return result
 end
+
+def get_games_by_genre(genreId)
+    db = connect_to_db("db/database.db")
+    result = db.execute("SELECT * FROM games_genres_rel INNER JOIN games ON games_genres_rel.gameId = games.id WHERE genreId = ?", genreId)
+    return result
+end
