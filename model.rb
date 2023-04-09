@@ -1,7 +1,7 @@
-
 def connect_to_db(database)
     db = SQLite3::Database.new(database)
     db.results_as_hash = true
+    db.execute("PRAGMA foreign_keys = ON")
     return db
 end
 
@@ -68,5 +68,12 @@ end
 def get_games_by_genre(genreId)
     db = connect_to_db("db/database.db")
     result = db.execute("SELECT * FROM games_genres_rel INNER JOIN games ON games_genres_rel.gameId = games.id WHERE genreId = ?", genreId)
+    return result
+end
+
+def login_attempt(user)
+    db = connect_to_db("db/database.db")
+    db.execute("INSERT INTO login_attemps (username, time) VALUES (?,?)", user, Time.now.to_i)
+    result = db.execute("SELECT * FROM login_attemps WHERE username = ?", user)
     return result
 end

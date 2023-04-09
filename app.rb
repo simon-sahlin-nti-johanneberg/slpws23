@@ -127,8 +127,8 @@ post('/games/:id/comments/create') do
 end
 
 post('/games/comments/:id/delete') do
-  comment = get_all_from_id('comments', id)
   id = params[:id].to_i
+  comment = get_all_from_id('comments', id)
   gameId = params[:gameId]
 
   #Authorization
@@ -214,6 +214,12 @@ post('/user/login') do
   username = params[:username]
   password = params[:password]
 
+  login_attemps = login_attempt(username)
+  if (login_attemps.length > 5 && Time.now.to_i - login_attemps.reverse[5]["time"] < 10)
+    flash[:notice] = "Too many login attempts, wait for 10 seconds"
+    redirect('/user/login')
+  end
+
   user = get_all_from_where("users", "username", username).first
 
   #Authentication
@@ -288,7 +294,7 @@ post('/user/:id/update') do
     end
   end
 
-  if newImage != user["profileImage"]
+  if newImage != user["profileImage"] 
     update_value("users", "profileImage", newImage, userId)
   end
 
