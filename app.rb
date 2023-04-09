@@ -251,7 +251,7 @@ post('/user/:id/update') do
   userId = params[:id].to_i
 
   #Authorization 
-  if (session[:userId] != id)
+  if (session[:userId] != userId)
     redirect('/')
   end
 
