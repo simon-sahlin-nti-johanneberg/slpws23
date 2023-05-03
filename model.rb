@@ -135,3 +135,20 @@ def login_attempt(user)
     result = db.execute("SELECT * FROM login_attemps WHERE username = ?", user)
     return result
 end
+
+########################################################
+
+# Encrypts a given password using BCrypt
+#
+# @param password [String] the password to be encrypted
+def digest_password(password)
+    return BCrypt::Password.create(password)
+end
+
+# Compares two digested passwords using BCrypt
+# 
+# @param [String] pass1, the first password string
+# @param [String] pass2, the second password string to compare with pass1
+def compare_digests(pass1, pass2)
+    return BCrypt::Password.new(pass1) == pass2
+end

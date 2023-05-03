@@ -261,7 +261,7 @@ post('/user/create') do
   end
 
 
-  passDigest = BCrypt::Password.create(pass1)
+  passDigest = digest_password(pass1)
   create_user(username, passDigest, image)
   p "Registered successfully!"
   flash[:notice] = "Registered successfully!"
@@ -369,7 +369,7 @@ post('/user/:id/update') do
       p passwordValidation
       flash[:notice] = "\n #{passwordValidation}"
     else
-      passDigest = BCrypt::Password.create(newPassword)
+      passDigest = digest_password(newPassword)
       update_value("users", "passwordDigest", passDigest, userId)
     end
   end
@@ -438,7 +438,7 @@ end
 # @param [String] password, the password to authenticate with
 def AuthenticatePassword(user, password)
   #Authentication
-  if user != nil && BCrypt::Password.new(user['passwordDigest']) == password
+  if user != nil && compare_digests(user['passwordDigest'], password)
     p "Logged in successfully! #{user["id"]}"
     return nil
   end

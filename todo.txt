@@ -1,5 +1,8 @@
-Mer krut på dokumentation
-(Sist av allt) Yardoc
+Betyg i nuläget: B. Förslag komplettering (A): 
+Yardoc. 
+Finlsipa MVC (Bcrypt i model, session+params+redirects i controller). 
+DRY:a up koden (tex !isAdmin, lägga i beforeblock eller funktion?). 
+On delete cascade-liknande funktionalitet (ta bort, rensa upp resurser ifrån flera relaterade tabeller. Tex, vad händer med spel-Id i comments om ett spel tas bort?)
 
 "Validering" i classroom.
 "flash och notice" i classroom för inloggningssidan.
