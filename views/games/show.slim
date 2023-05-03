@@ -28,7 +28,7 @@ section#gamespage-title.flex-vertcenter[style="background-color: #{result['color
                                 P#comment-username[style="color: #{result['colorText']};"] = comment['username'] 
                                 p#comment-content[style="color: #{result['colorText']};"] = comment['content']
                                 /! Authorization 
-                                - if @userId == comment["userId"] || IsAdmin(@userId)
+                                - if @userId == comment["userId"] || @isAdmin
                                     #comment-links
                                         form action="/games/comments/#{comment['id']}/edit" method="get" 
                                             input type="hidden" name="id" value=comment['id']

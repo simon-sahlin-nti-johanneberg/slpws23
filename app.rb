@@ -55,11 +55,6 @@ end
 # Creates a new empty game and redirects to '/games'
 # 
 get('/games/create') do
-  #Authorization
-  if (!IsAdmin(session[:userId]))
-    redirect('/')
-  end
-
   create_game()
   redirect('/games')
 end
@@ -85,11 +80,6 @@ end
 #
 # @param [Integer] :id, the ID of the game
 get('/games/:id/edit') do
-  #Authorization
-  if (!IsAdmin(session[:userId]))
-    redirect('/')
-  end
-
   id = params[:id].to_i
   result = get_all_from_id('games', id)
   slim(:"games/edit", locals:{result:result})
@@ -112,11 +102,6 @@ end
 # @param [String] :colorText, the text color of the game
 # @param [String] :colorLink, the link color of the game
 post('/games/:id/update') do
-  #Authorization
-  if (!IsAdmin(session[:userId]))
-    redirect('/games')
-  end
-
   id = params[:id].to_i
   title = params[:title]
   tagline = params[:tagline]
@@ -140,11 +125,6 @@ end
 #
 # @param [Integer] :id, the ID of the game to be deleted
 post('/games/:id/delete') do
-  #Authorization
-  if (!IsAdmin(session[:userId]))
-    redirect('/')
-  end
-
   id = params[:id]
   delete_id('games', id)
   redirect('/games')
@@ -176,11 +156,6 @@ post('/games/comments/:id/delete') do
   id = params[:id].to_i
   comment = get_all_from_id('comments', id)
   gameId = params[:gameId]
-
-  #Authorization
-  if (session[:userId] != comment["userId"] && !IsAdmin(session[:userId]))
-    redirect('/')
-  end
 
   delete_id('comments', id)
   redirect("/games/#{gameId}")
@@ -459,12 +434,24 @@ helpers do
   end
 end
 
-# A fucntion that runs before each route, if the user is logged in, it sets the @userId, @username, and @profileImage variables for each view
+# A function that runs before each route, if the user is logged in, it sets the @userId, @username, @profileImage and @isAdmin variables for each view.
 before do
   if (session[:userId] != nil)
     userData = get_all_from_id("users", session[:userId])
     @userId = session[:userId]
     @username = userData["username"]
     @profileImage = userData["profileImage"]
+    @isAdmin = IsAdmin(@userId)
   end
 end
+
+# A function that runs before all routes that need admin access, if user is an not an admin, it redirects to main page.
+["/games/create", "/games/:id/edit", "/games/:id/update", "/games/:id/delete"].each do |path|
+  before path do
+    #Authorization
+    if (!IsAdmin(session[:userId]))
+      redirect('/')
+    end
+  end
+end
+ 
